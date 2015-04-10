@@ -1,0 +1,16 @@
+{
+	"name": "alukos/SocialAuther",
+	"description": "Social auther on our site",
+	"license": "GPL-3.0+",
+	"authors": [
+		{
+			"name": "Alexander Kostushin",
+			"email": "alukos@yandex.ru"
+		}
+	],
+	"autoload": {
+		"psr-0": { "SocialAuther": "lib/" }
+	},
+	"minimum-stability": "dev",
+	"require": {}
+}
