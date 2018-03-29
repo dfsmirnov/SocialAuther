@@ -2,7 +2,7 @@
 
 namespace SocialAuther\Adapter;
 
-class Odnoklassniki extends AbstractAdapter
+class Ok extends AbstractAdapter
 {
     /**
      * Social Public Key
@@ -44,7 +44,7 @@ class Odnoklassniki extends AbstractAdapter
             'birthday'   => 'birthday'
         );
 
-        $this->provider = 'odnoklassniki';
+        $this->provider = 'ok';
     }
 
     /**
@@ -56,7 +56,7 @@ class Odnoklassniki extends AbstractAdapter
     {
         $result = null;
         if (isset($this->userInfo['uid'])) {
-            return 'http://www.odnoklassniki.ru/profile/' . $this->userInfo['uid'];
+            return 'http://www.ok.ru/profile/' . $this->userInfo['uid'];
         }
 
         return $result;
@@ -80,7 +80,7 @@ class Odnoklassniki extends AbstractAdapter
                 'client_secret' => $this->clientSecret
             );
 
-            $tokenInfo = $this->post('http://api.odnoklassniki.ru/oauth/token.do', $params);
+            $tokenInfo = $this->post('http://api.ok.ru/oauth/token.do', $params);
 
             if (isset($tokenInfo['access_token']) && isset($this->publicKey)) {
                 $sign = md5("application_key={$this->publicKey}format=jsonmethod=users.getCurrentUser" . md5("{$tokenInfo['access_token']}{$this->clientSecret}"));
@@ -93,7 +93,7 @@ class Odnoklassniki extends AbstractAdapter
                     'sig'             => $sign
                 );
 
-                $userInfo = $this->get('http://api.odnoklassniki.ru/fb.do', $params);
+                $userInfo = $this->get('http://api.ok.ru/fb.do', $params);
 
                 if (isset($userInfo['uid'])) {
                     $this->userInfo = $userInfo;
@@ -113,11 +113,12 @@ class Odnoklassniki extends AbstractAdapter
     public function prepareAuthParams()
     {
         return array(
-            'auth_url'    => 'http://www.odnoklassniki.ru/oauth/authorize',
+            'auth_url'    => 'http://connect.ok.ru/oauth/authorize',
             'auth_params' => array(
                 'client_id'     => $this->clientId,
                 'response_type' => 'code',
-                'redirect_uri'  => $this->redirectUri
+                'redirect_uri'  => $this->redirectUri,
+                'scope' => 'VALUABLE_ACCESS'
             )
         );
     }
