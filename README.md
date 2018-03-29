@@ -84,6 +84,7 @@
 Для осуществления аутентификации через социальную сеть Одноклассники вам необходимо предварительно создать новый проект и сконфигурировать параметры: `client_id`, `client_secret`, `redirect_uri`, `public_key`:
 
 - **Шаг 1.** Создание [нового приложения](http://www.odnoklassniki.ru/dk?st.cmd=appEditWizard&st._aid=Apps_Info_MyDev_AddApp):
+                                                         http://ok.ru/dk?st.cmd=appEdit&st._aid=Apps_Info_MyDev_AddApp
     - Выбираем "Вне Одноклассников"
     - Выбираем "oAuth авторизация"
 - **Шаг 2.** Настройка приложения:
