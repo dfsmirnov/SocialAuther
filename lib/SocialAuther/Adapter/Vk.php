@@ -4,12 +4,14 @@ namespace SocialAuther\Adapter;
 
 class Vk extends AbstractAdapter
 {
+    const VERSION = '5.5';
+
     public function __construct($config)
     {
         parent::__construct($config);
 
         $this->socialFieldsMap = array(
-            'socialId'   => 'uid',
+            'socialId'   => 'id',
             'email'      => 'email',
             'avatar'     => 'photo_big',
             'birthday'   => 'bdate'
@@ -83,22 +85,24 @@ class Vk extends AbstractAdapter
                 'client_id' => $this->clientId,
                 'client_secret' => $this->clientSecret,
                 'code' => $_GET['code'],
-                'redirect_uri' => $this->redirectUri
+                'redirect_uri' => $this->redirectUri,
+                'v' => self::VERSION
             );
 
             $tokenInfo = $this->get('https://oauth.vk.com/access_token', $params);
             if (isset($tokenInfo['access_token'])) {
                 $params = array(
                     'uids'         => $tokenInfo['user_id'],
-                    'fields'       => 'uid,first_name,last_name,screen_name,sex,bdate,photo_big',
-                    'access_token' => $tokenInfo['access_token']
+                    'fields'       => 'id,first_name,last_name,screen_name,sex,bdate,photo_big',
+                    'access_token' => $tokenInfo['access_token'],
+                    'v' => self::VERSION
                 );
 
                 $userInfo = $this->get('https://api.vk.com/method/users.get', $params);
                 if (isset($tokenInfo['email'])) {
                     $userInfo['response'][0]['email'] = $tokenInfo['email'];
                 }
-                if (isset($userInfo['response'][0]['uid'])) {
+                if (isset($userInfo['response'][0]['id'])) {
                     $this->userInfo = $userInfo['response'][0];
                     $result = true;
                 }
